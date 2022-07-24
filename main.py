@@ -36,8 +36,8 @@ class Bot(commands.Bot):
         print(f"Invite using {url}", end="\n\n")
 
     @property
-    def invite(self):
-        return discord
+    def guild(self) -> discord.Guild:
+        return self.get_guild(464446709146320897)
 
     # def manipulate_extension(self, name: str, *, package: Optional[str]):
     #     pass

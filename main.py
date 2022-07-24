@@ -2,15 +2,28 @@ import pathlib
 from typing import Optional
 
 import discord
+from discord import Guild, Message
 from discord.ext import commands
+from discord.ext.commands import Bot
 
 import constants
 
 
-class Bot(commands.Bot):
+class Boot(commands.Bot):
+    @classmethod
+    async def command_prefix(cls, bot: Bot, message: Message) -> str | list[str]:
+        prefix: Optional[str | list[str]] = constants.PREFIX
+
+        if constants.WHEN_MENTIONED and prefix:
+            prefix = commands.when_mentioned_or(prefix)(bot, message)
+        elif constants.WHEN_MENTIONED:
+            prefix: list[str] = commands.when_mentioned()
+
+        return prefix
+
     def __init__(self):
         super().__init__(
-            command_prefix=commands.when_mentioned_or(constants.PREFIX),
+            command_prefix=Boot.command_prefix,
             intents=constants.INTENTS
         )
 
@@ -36,7 +49,7 @@ class Bot(commands.Bot):
         print(f"Invite using {url}", end="\n\n")
 
     @property
-    def guild(self) -> discord.Guild:
+    def guild(self) -> Guild:
         return self.get_guild(464446709146320897)
 
     # def manipulate_extension(self, name: str, *, package: Optional[str]):
@@ -51,16 +64,16 @@ class Bot(commands.Bot):
         print(loading_message)
         super().load_extension(name, package=package)
 
-    def run(self):
+    def roon(self):
         token = constants.TOKEN
 
         super().run(token)
 
 
 def main():
-    bot = Bot()
+    boot = Boot()
 
-    bot.run()
+    boot.roon()
 
 
 if __name__ == "__main__":

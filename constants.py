@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pathlib
 from typing import Any, Optional
 

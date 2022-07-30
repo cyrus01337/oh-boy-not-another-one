@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from discord import Member, Role
 from discord.ext import commands
-from discord.ext.commands import Bot, Context
+from discord.ext.commands import Bot
 
 
 class Roles(commands.Cog):
@@ -35,9 +35,17 @@ class Roles(commands.Cog):
         members: list[Member] = self.bot.guild.members
 
         for member in members:
+            to_add = []
             roles = self._resolve_roles_from_member(member)
 
-            await member.add_roles(*roles, reason=self.reason)
+            for role in roles:
+                if role not in member.roles:
+                    to_add.append(role)
+
+            if not to_add:
+                continue
+
+            await member.add_roles(*to_add, reason=self.reason)
 
     @commands.Cog.listener()
     async def on_member_join(self, member: Member):

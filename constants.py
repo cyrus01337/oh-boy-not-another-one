@@ -12,4 +12,4 @@ ADD_JISHAKU: bool = CONFIG["ADD_JISHAKU"]
 PREFIX: Optional[str] = CONFIG["PREFIX"]
 TOKEN: str = CONFIG["TOKEN"]
 WHEN_MENTIONED: bool = CONFIG["WHEN_MENTIONED"]
-INTENTS = discord.Intents.default()
+INTENTS = discord.Intents.all()
